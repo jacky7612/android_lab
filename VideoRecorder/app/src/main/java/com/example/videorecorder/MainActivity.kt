@@ -21,36 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        videoView = findViewById<Button>(R.id.videoView) as VideoView?
-
-        if (mediaController == null) {
-            // creating object of
-            // media controller class
-            mediaController = MediaController(this)
-
-            // sets the anchor view
-            // anchor view for the videoView
-            mediaController!!.setAnchorView(this.videoView)
-
-            // sets the media player to the videoView
-            //mediaController!!.setMediaPlayer(this.videoView)
-        }
-        // sets the media controller to the videoView
-        videoView!!.setMediaController(mediaController)
-        // sets the resource from the
-        // videoUrl to the videoView
-        videoView!!.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.sample))
-        videoView!!.requestFocus()
-
-        // starts the video
-        videoView!!.start()
-        videoView!!.setOnCompletionListener {
-            Toast.makeText(applicationContext, "video End", Toast.LENGTH_LONG).show()
-        }
-        videoView!!.setOnErrorListener { mediaPlayer, i, i2 ->
-            Toast.makeText(applicationContext, "Error Occured", Toast.LENGTH_LONG).show()
-            false
-        }
+        playVideo()
 /*
         var button_start_recording = findViewById<Button>(R.id.button_start_recording)
         button_start_recording.isEnabled = hasCamera()
@@ -97,7 +68,39 @@ class MainActivity : AppCompatActivity() {
 
          */
     }
+    private fun playVideo()
+    {
+        var videoUrl = "https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1"
 
+        videoView = findViewById<Button>(R.id.videoView) as VideoView?
+
+        if (mediaController == null) {
+            // creating object of media controller class
+            mediaController = MediaController(this)
+
+            // sets the anchor view anchor view for the videoView
+            mediaController!!.setAnchorView(this.videoView)
+
+            // sets the media player to the videoView
+            //mediaController!!.setMediaPlayer(this.videoView)
+        }
+        // sets the media controller to the videoView
+        videoView!!.setMediaController(mediaController)
+        // sets the resource from the videoUrl to the videoView
+        videoView!!.setVideoURI(Uri.parse(videoUrl))
+        //videoView!!.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.sample))
+        videoView!!.requestFocus()
+
+        // starts the video
+        videoView!!.start()
+        videoView!!.setOnCompletionListener {
+            Toast.makeText(applicationContext, "video End", Toast.LENGTH_LONG).show()
+        }
+        videoView!!.setOnErrorListener { mediaPlayer, i, i2 ->
+            Toast.makeText(applicationContext, "Error Occured", Toast.LENGTH_LONG).show()
+            false
+        }
+    }
     private fun hasCamera(): Boolean {
         return packageManager.hasSystemFeature(
             PackageManager.FEATURE_CAMERA_ANY)
